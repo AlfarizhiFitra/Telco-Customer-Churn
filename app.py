@@ -20,10 +20,10 @@ model = joblib.load("telco_churn_model.pkl")
 # =========================
 # Header
 # =========================
-st.title("Telco Customer Churn Prediction")
+st.title("📊 Telco Customer Churn Prediction")
 st.markdown(
     "Aplikasi ini memprediksi **kemungkinan pelanggan melakukan churn** "
-    "berdasarkan data layanan dan pelanggan."
+    "berdasarkan data pelanggan dan layanan yang digunakan."
 )
 
 st.divider()
@@ -32,7 +32,7 @@ st.divider()
 # Form Input
 # =========================
 with st.form("churn_form"):
-    st.subheader("Data Pelanggan")
+    st.subheader("🧑 Data Pelanggan")
 
     col1, col2 = st.columns(2)
 
@@ -79,7 +79,7 @@ with st.form("churn_form"):
             ["Yes", "No", "No internet service"]
         )
 
-    st.subheader("Kontrak & Pembayaran")
+    st.subheader("📄 Kontrak & Pembayaran")
 
     contract = st.selectbox(
         "Contract",
@@ -96,7 +96,7 @@ with st.form("churn_form"):
         ]
     )
 
-    st.subheader("Biaya Dalam USD")
+    st.subheader("💰 Biaya")
 
     monthly = st.number_input("Monthly Charges", min_value=0.0, step=1.0)
     total = st.number_input("Total Charges", min_value=0.0, step=1.0)
@@ -104,7 +104,7 @@ with st.form("churn_form"):
     submit = st.form_submit_button("🔍 Prediksi Churn")
 
 # =========================
-# Prediction
+# Prediction & Output
 # =========================
 if submit:
     input_data = pd.DataFrame({
@@ -133,13 +133,13 @@ if submit:
     prediction = model.predict(input_data)[0]
     probability = model.predict_proba(input_data)[0][1]
 
-st.divider()
-st.subheader("Hasil Prediksi")
+    st.divider()
+    st.subheader("📈 Hasil Prediksi")
 
-if probability < 0.5:
-    st.error("⚠️ Pelanggan **BERPOTENSI CHURN**")
-else:
-    st.success("✅ Pelanggan **TIDAK CHURN**")
+    # Sesuai permintaan: <50% = churn
+    if probability < 0.5:
+        st.error("⚠️ Pelanggan **BERPOTENSI CHURN**")
+    else:
+        st.success("✅ Pelanggan **TIDAK CHURN**")
 
-st.write(f"**Probabilitas Churn:** `{probability:.2%}`")
-
+    st.write(f"**Probabilitas Churn:** `{probability:.2%}`")
