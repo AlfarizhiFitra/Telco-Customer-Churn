@@ -133,12 +133,13 @@ if submit:
     prediction = model.predict(input_data)[0]
     probability = model.predict_proba(input_data)[0][1]
 
-    st.divider()
-    st.subheader("Hasil Prediksi")
+st.divider()
+st.subheader("Hasil Prediksi")
 
-    if prediction == "Yes":
-        st.error("⚠️ Pelanggan **BERPOTENSI CHURN**")
-    else:
-        st.success("✅ Pelanggan **TIDAK CHURN**")
+if probability < 0.5:
+    st.error("⚠️ Pelanggan **BERPOTENSI CHURN**")
+else:
+    st.success("✅ Pelanggan **TIDAK CHURN**")
 
-    st.write(f"**Probabilitas Churn:** `{probability:.2%}`")
+st.write(f"**Probabilitas Churn:** `{probability:.2%}`")
+
